@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="Description" content="小红线，信贷业务员社区，"/>
+	<meta data-vue-meta="true" name="keywords" content="小红线，信贷业务员聚集地，信贷行业经验分享交流！"/> 
+	<title>小红线-信贷业务员聚集地</title>
+	<link rel="shortcut icon" href="../public/images/picture/favicon.png" />
+	<link rel="bookmark" href="../public/images/picture/favicon.png" />
+	<link rel="icon" href="../public/images/picture/favicon.png" type="image/png" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<link rel="apple-touch-icon" href="../public/images/picture/favicon.png" />
+	<meta name="apple-mobile-web-app-title" content="小红线" />
+	<meta name="mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="white" />
+	<link rel="stylesheet" href="../public/styles/xiaohong.css" />
+</head>
+<body>
+	<div class="column-container">
+		<div class="column-header">
+			<div class="column-header-content">
+				<img src="../public/images/picture/120.png" class="column-header-logo">
+				<img src="../public/images/picture/favicon.png" class="column-header-avatar">
+			</div>
+		</div>
+		<div class="column-content">
+			<div class="column-content-a">
+				<div class="column-content-title">申请创建专栏</div>
+				<p>专栏旨在为全国各地区信贷企业提供写作工具，创建成功后既可以写作，创建专栏需要进行申请，通过审核后即可使用。</p>
+				<h5>为什么要创建专栏：</h5>
+				<p>创建专栏既可以在小红线发布信息，发布人可以对自己企业的产品做全方位介绍，随时更新企业产品信息，让用户随时掌握企业动态。</p>
+				<h5>专栏创作的目的：</h5>
+				<p>专栏是为了让全国同行能够更深入的了解公司产品，从而建立更多的合作；</p>
+				<h5>申请人需满足以下要求：</h5>
+				<ul>
+					<li>专栏须由本人申请，不可代为申请；</li>
+					<li>申请人需要有自主代理的产品或者有非常熟练的口子；</li>
+				</ul>
+				<h5>申请专栏的内容方向：</h5>
+				<p>专栏旨在全方位介绍公司和产品，因此内容就是围绕公司的产品各个方面做分享；</p>
+				<br>
+				<br>
+				<p>专栏绑定的贷款产品写作方向就是围绕这个产品做深入分析，请不要写贷款产品之外的话题。</p>
+				<ul>
+					<li>接受申请的方向：自主运营的贷款产品，申请人有丰富操作经验的网贷产品；</li>
+					<li>不接受申请的方向： 接受申请方向以外的暂时都不受理。</li>
+				</ul>
+				<h5>申请专栏的相关背景：</h5>
+				<ul>
+					<li>专栏申请人需有自主代理的贷款产品或有非常熟悉的产品；</li>
+					<li>专栏申请人需具备一定的写作能力，能对自己的产品做出通俗易懂的文章创作；</li>
+				</ul>
+				<p>专栏申请将在60秒内通过申请，通过即可以马上创作。</p>
+				<hr>
+				<h4>公司名称</h4>
+				<input type="text" id="company" name="company" placeholder="注意：请填写公司全称" maxlength="20">
+				<h4>专栏名称</h4>
+				<input type="text" id="loanName" name="loanName" placeholder="注意：请填写要分享的贷款产品名称" maxlength="8">
+				<h4>产品面向的城市</h4>
+				<div class="column-zone">
+					<select id="province" class="column-zone-a"></select>  
+					<select id="city" class="column-zone-a"></select>  
+				</div>
+				<h4>作者简介</h4>
+				<textarea id="introduce" name="introduction" maxlength="140" placeholder="不超过140个字符" ></textarea>
+				<div class="column-button">
+					<div class="column-buttona">注意：一个账号只能申请一次，请注意填写</div>
+					<div class="column-buttons">申请</div>
+				</div>
+			</div>
+	</div>
+	</div>
+</body>
+<script src="../public/scripts/city.js"></script>  
+<script src="../public/scripts/jquery.min.js"></script>  
+<script> 
+    (function(){  
+        var pHtmlStr = '';  
+        for(var name in pc){  
+            pHtmlStr = pHtmlStr + '<option>'+name+'</option>';  
+        }  
+        $("#province").html(pHtmlStr);  
+        $("#province").change(function(){  
+            var pname = $("#province option:selected").text();           
+            var pHtmlStr = '';  
+            var cityList = pc[pname];  
+            for(var index in cityList){  
+                pHtmlStr = pHtmlStr + '<option>'+cityList[index]+'</option>';  
+            }  
+            $("#city").html(pHtmlStr);
+            
+        });  
+        $("#province").change()
+    })();
+
+    $(document).ready(function(){
+    	$('.column-buttons').click(function(e){
+    		var company = $('#company').val().replace(/\s/ig,'');
+    		var loanName= $('#loanName').val().replace(/\s/ig,'');
+    		var zone = $("#city option:selected").text().split('市')[0];
+    		var introduce = $('#introduce').val().replace(/\s/ig,'');
+    	})
+    });
+
+
+</script>  
+</html>
