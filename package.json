@@ -19,6 +19,7 @@
     "pug": "^2.0.3",
     "qiniu": "^7.1.5",
     "redis": "^2.8.0",
+    "request-ip": "^2.0.2",
     "serve-favicon": "^2.4.5"
   },
   "devDependencies": {

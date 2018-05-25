@@ -10,8 +10,8 @@ let {formatDate} = require('../../utils/DateUtil');
 //目标，拿到地点，所有地区专栏返回给客户
 
 router.get('/getColumnList/:site',function(req,res){
-	var zone = req.params.site;//发起点赞人的unionId
-	User.find({zone:zone},{follow:0,followed:0,coll:0,number:0,isVip:0,isColumn:0,zanArticle:0},function(err,result){
+	var zone = req.params.site;
+	User.find({$or:[{zone:zone},{zone:'全国'}]},{follow:0,followed:0,coll:0,number:0,isVip:0,isColumn:0,zanArticle:0},function(err,result){
 		if(err){
 			return logger.error('查询本地列表出错了')
 		}else{
