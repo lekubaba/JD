@@ -45,8 +45,25 @@ router.get('/me/:unionId',function(req,res){
 		}else{
 			Article.find({_id:{$in:result[0].myColumn}},{_id:1,unionId:1,title:1,lead:1,zanNum:1,kanNum:1},function(err,result1){
 	
-				res.json(result1)
-			})
+				res.json(result1.reverse())
+			}).limit(10);
+
+		}
+	})
+});
+
+router.get('/mes/:unionId/:len',function(req,res){
+	var unionId = req.params.unionId;
+	var len = req.params.len;
+	len = parseInt(len);
+	User.find({unionId:unionId},{_id:0,myColumn:1},function(err,result){
+		if(err){
+			return logger.error(err)
+		}else{
+			Article.find({_id:{$in:result[0].myColumn}},{_id:1,unionId:1,title:1,lead:1,zanNum:1,kanNum:1},function(err,result1){
+	
+				res.json(result1.reverse())
+			}).limit(10).skip(len);
 
 		}
 	})
@@ -60,12 +77,30 @@ router.get('/other/:unionId',function(req,res){
 			return logger.error(err)
 		}else{
 			Article.find({_id:{$in:result[0].coll}},{_id:1,unionId:1,nickName:1,avatarUrl:1,time:1,title:1,lead:1,zanNum:1,kanNum:1},function(err,result1){
-				res.json(result1)
-			})
+				res.json(result1.reverse())
+			}).limit(10)
 
 		}
 	})
 });
+
+router.get('/others/:unionId/:len',function(req,res){
+	var unionId = req.params.unionId;
+	var len = req.params.len;
+	len = parseInt(len);
+
+	User.find({unionId:unionId},{_id:0,coll:1},function(err,result){
+		if(err){
+			return logger.error(err)
+		}else{
+			Article.find({_id:{$in:result[0].coll}},{_id:1,unionId:1,nickName:1,avatarUrl:1,time:1,title:1,lead:1,zanNum:1,kanNum:1},function(err,result1){
+				res.json(result1.reverse())
+			}).limit(10).skip(len)
+
+		}
+	})
+});
+
 
 
 router.get('/follower/:unionId',function(req,res){
@@ -75,13 +110,28 @@ router.get('/follower/:unionId',function(req,res){
 			return logger.error(err)
 		}else{
 			User.find({unionId:{$in:result[0].follow}},{_id:1,unionId:1,nickName:1,avatarUrl:1,loanName:1},function(err,result1){
-				res.json(result1)
-			})
+				res.json(result1.reverse())
+			}).limit(30)
 
 		}
 	})
 });
 
+router.get('/followers/:unionId/:len',function(req,res){
+	var unionId = req.params.unionId;
+	var len = req.params.len;
+	len = parseInt(len);
+	User.find({unionId:unionId},{_id:0,follow:1},function(err,result){
+		if(err){
+			return logger.error(err)
+		}else{
+			User.find({unionId:{$in:result[0].follow}},{_id:1,unionId:1,nickName:1,avatarUrl:1,loanName:1},function(err,result1){
+				res.json(result1.reverse())
+			}).limit(30).skip(len)
+
+		}
+	})
+});
 
 
 

@@ -43,7 +43,48 @@ var data1 = {followStateCode:true,_id:result._id,unionId:result.unionId,zone:res
 				
 			}
 
-		}) 
+		}).limit(6)
+
+			
+		}
+	})
+});
+
+router.get('/udetails/:_id/:unionId/:len',function(req,res){
+	var _id = req.params._id;//详情页用户的id
+	var unionId= req.params.unionId;//请求用户的unionId;
+	var len = req.params.len;
+	len = parseInt(len);
+	User.findOne({_id:_id},{_id:1,unionId:1,nickName:1,avatarUrl:1,loanName:1,myColumn:1,city:1,company:1,zone:1},function(err,result){
+		if(err){
+			return logger.error('详情页查询出错了');
+		}else{
+
+		var myColumnId = result.myColumn;
+		Article.find({_id:{$in:myColumnId}},{_id:1,title:1,lead:1,zanNum:1,kanNum:1},function(err1,results){
+			if(err1){
+				return logger.error(err1);
+			}else{
+
+				User.find({unionId:unionId,follow:result.unionId},{_id:0,follow:1},function(err,result1){
+					if(err){
+						return logger.error(err)
+					}
+					if(!result1[0]){
+var data1 = {followStateCode:false,_id:result._id,unionId:result.unionId,zone:result.zone,nickName:result.nickName,avatarUrl:result.avatarUrl,loanName:result.loanName,city:result.city,myColumn:results,company:result.company}
+						res.json(data1);
+					}
+					else if(result1[0]){
+var data1 = {followStateCode:true,_id:result._id,unionId:result.unionId,zone:result.zone,nickName:result.nickName,avatarUrl:result.avatarUrl,loanName:result.loanName,city:result.city,myColumn:results,company:result.company}
+
+						res.json(data1);
+					}
+				})
+
+				
+			}
+
+		}).limit(6).skip(len)
 
 			
 		}

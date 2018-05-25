@@ -16,7 +16,7 @@ var options = {
 }
 
 var options2= {
-     "host": "127.0.0.1",
+     "host": "www.xiaohongxian.com",
      "port": "6379",
      "ttl": 60 * 60 * 24 * 30 * 12,   //Session的有效期为365天
 };
