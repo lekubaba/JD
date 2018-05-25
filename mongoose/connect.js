@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var logger = require('../utils/logger.js').logger;
 
-var DB_URL   = 'mongodb://lekubaba:yjx123456@127.0.0.1:27017/xiaohong';
+var DB_URL   = 'mongodb://lekubaba:yjx123456@www.xiaohongxian.com/xiaohong';
 
 mongoose.Promise = require('bluebird');
 
