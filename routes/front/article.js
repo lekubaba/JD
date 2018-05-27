@@ -30,7 +30,8 @@ router.post('/article',function(req,res){
 		content:content,
 		time:formatDate('yyyy-MM-dd hh:mm:ss'),
 		zanNum:0,
-		kanNum:0
+		kanNum:0,
+		timeStamp:Date.now()
 	})
 
 	article.save(function(err){

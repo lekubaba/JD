@@ -3,21 +3,14 @@ $(document).ready(function(){
 
     var E = window.wangEditor;
     var editor = new E('#editor');
-    // editor.customConfig.uploadFileName = 'images';
-    // editor.customConfig.uploadImgServer = '/upload/experience';
     // 允许上传到七牛云存储
     editor.customConfig.qiniu = true;
-    // editor.customConfig.uploadImgShowBase64 = true;
     editor.customConfig.pasteFilterStyle = true;
-    // editor.customConfig.showLinkImg = false;
-    editor.customConfig.uploadImgMaxLength = 1;
-    editor.customConfig.uploadImgMaxSize = 1 * 1024 * 1024;
     editor.customConfig.pasteIgnoreImg=true;
-    editor.customConfig.linkCheck = function (text, link) {
-        return true // 返回 true 表示校验成功
+    editor.customConfig.colors = ['#000000','#2c90e0','#ff5545','#c9c1bb'];
+    editor.customConfig.pasteTextHandle=function(content){
+        return cleanAndPaste(content)
     }
-    editor.customConfig.colors = ['#000000','#2c90e0','#ff5545','#c9c1bb']
-
     editor.customConfig.menus =[
         'head',  // 标题
         'bold',  // 粗体
@@ -38,7 +31,6 @@ $(document).ready(function(){
         'redo'  // 重复
     ];
     editor.create();
-
 
     uploadInit()
 
@@ -179,6 +171,7 @@ $(document).ready(function(){
         var lead = $('#pre').val().replace(/\s/ig,'');
         var contents = editor.txt.html();
         var data = {titles:titles,lead:lead,contents:contents};
+
 
         if(titles.length<5){
             $('.remind-kit').text('标题太短');

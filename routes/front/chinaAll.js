@@ -14,9 +14,9 @@ router.get('/chinaAll/:site',function(req,res){
 		if(err){
 			return logger.error(err);
 		}else{
-			return res.json(result.reverse());
+			return res.json(result);
 		}
-	}).limit(10)
+	}).sort({timeStamp:-1}).limit(10)
 });
 
 
@@ -28,9 +28,9 @@ router.get('/freshexp/:site/:len',function(req,res){
 		if(err){
 			return logger.error(err);
 		}else{
-			return res.json(result.reverse());
+			return res.json(result);
 		}
-	}).limit(10).skip(len)
+	}).sort({timeStamp:-1}).limit(10).skip(len)
 });
 
 

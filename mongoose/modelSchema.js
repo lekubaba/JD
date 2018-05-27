@@ -26,7 +26,8 @@ var userSchema = new Schema({
 	myColumn:[String],
 	myColumnNum:Number,
 	coll:[String],
-	collNum:Number
+	collNum:Number,
+	timeStamp:Number
 });
 
 
@@ -65,7 +66,8 @@ var articleSchema = new Schema({
 	kanNum:Number,
 	whoZan:[String],
 	commentNum:Number,
-	comment:[String]
+	comment:[String],
+	timeStamp:Number
 });
 
 //主评论

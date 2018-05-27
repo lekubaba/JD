@@ -36,7 +36,8 @@ router.post('/writetool',function(req,res){
 	var loanName = req.body.loanName;
 	var zone = req.body.zone;
 	var introduce = req.body.introduce;
-	User.update({unionId:unionId},{$set:{company:company,loanName:loanName,zone:zone,introduce:introduce,isColumn:true}},function(err){
+	var timeStamp = Date.now();
+	User.update({unionId:unionId},{$set:{timeStamp:timeStamp,company:company,loanName:loanName,zone:zone,introduce:introduce,isColumn:true}},function(err){
 		if(err){
 			return logger.error(err);
 		}
