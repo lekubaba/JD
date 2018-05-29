@@ -18,6 +18,9 @@ router.get('/column',function(req,res){
 	if(req.signedCookies.mycookies){
 		var unionId = req.signedCookies.mycookies.unionId;
 		User.findOne({unionId:unionId},{_id:0,isColumn:1,avatarUrl:1},function(err,result){
+			if(err){
+				return logger.error(err)
+			}
 			if(result.isColumn===false){
 				res.render('./column',{avatarUrl:result.avatarUrl})
 			}else if(result.isColumn===true){
@@ -51,15 +54,8 @@ router.post('/writetool',function(req,res){
 				res.cookie('mycookies',{unionId:result.unionId,nickName:result.nickName,avatarUrl:result.avatarUrl,zone:result.zone},{signed:true,maxAge:6000*1000*1000,path:'/'});
 
 				return res.redirect('/success')
-
-
 			}
 		})
-
-
-
-		
-
 	})
 
 })
@@ -69,6 +65,9 @@ router.get('/success',function(req,res){
 	if(req.signedCookies.mycookies){
 		var unionId = req.signedCookies.mycookies.unionId;
 		User.findOne({unionId:unionId},{_id:0,isColumn:1,avatarUrl:1},function(err,result){
+			if(err){
+				return logger.error(err)
+			}
 			if(result.isColumn===false){
 				res.render('./column',{avatarUrl:result.avatarUrl})
 			}else if(result.isColumn===true){
@@ -88,10 +87,13 @@ router.get('/write',function(req,res){
 	if(req.signedCookies.mycookies){
 		var unionId = req.signedCookies.mycookies.unionId;
 		User.findOne({unionId:unionId},{_id:0,isColumn:1,avatarUrl:1},function(err,result){
+			if(err){
+				return logger.error(err)
+			}
 			if(result.isColumn===false){
 				res.redirect('/column');
 			}else if(result.isColumn===true){
-				res.render('./write',{avatarUrl:result.avatarUrl});
+				res.render('./write',{avatarUrl:result.avatarUrl,unionId:unionId});
 			}
 		})
 	}else{
@@ -99,6 +101,59 @@ router.get('/write',function(req,res){
 	}
 
 })
+
+router.get('/article/manage',function(req,res){
+
+	if(req.signedCookies.mycookies){
+		var unionId = req.signedCookies.mycookies.unionId;
+		
+		User.findOne({unionId:unionId},{_id:0,myColumn:1},function(err,result){
+			if(err){
+				return logger.error(err)
+			}
+			if(result.myColumn.length===0){
+				return res.render('./articleList',{avatarUrl:req.signedCookies.mycookies.avatarUrl,articleList:''})
+			}else{
+				var _id = result.myColumn;
+				Article.find({_id:{$in:_id}},{_id:1,title:1,time:1},function(err,ret){
+					return res.render('./articleList',{avatarUrl:req.signedCookies.mycookies.avatarUrl,articleList:ret})
+				})
+			}
+		})
+	}else{
+		res.redirect('/');
+	}
+
+})
+
+
+router.get('/remove/article/:_id',function(req,res){
+	var _id = req.params._id;
+	if(req.signedCookies.mycookies){
+		var unionId = req.signedCookies.mycookies.unionId;
+		Article.remove({_id:_id},function(err){
+			if(err){
+				return logger.error(err)
+			}else{
+
+				User.update({unionId:unionId},{$pull:{myColumn:_id},$inc:{myColumnNum:-1}},function(err){
+					if(err){
+						return logger.error(err)
+					}else{
+						return res.send('success');
+					}
+				})
+			}
+		})
+	}else{
+		res.redirect('/');
+	}
+
+})
+
+
+
+
 
 
 module.exports = router;

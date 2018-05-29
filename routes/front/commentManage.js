@@ -24,7 +24,7 @@ router.post('/mainComment/:_id',function(req,res){
 	})
 	main.save(function(err){
 		if(err){
-			return logger.info('插入一级评论失败了');
+			return logger.info(err);
 		}else{
 			Article.update({_id:_id},{$addToSet:{'comment':main._id}},function(err){
 				if(err){
@@ -54,7 +54,7 @@ router.post('/subComment/:_id',function(req,res){
 
 	Main.update({_id:_id},{$push:{comment:subComment}},function(err){
 		if(err){
-			return logger.error('保存富评论出错');
+			return logger.error(err);
 		}else{
 			res.send('保存富评论成功啦')
 		}

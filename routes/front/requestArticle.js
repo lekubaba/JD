@@ -17,7 +17,7 @@ router.post('/requestArticle/:id',function(req,res){
 	var unionId = req.body.unionId;//请求用户自己的unionId;
 
 	Article.update({_id:_id},{$inc:{'kanNum':1}},function(err){
-		if(err) return logger.error('为文章增加1出现错误了:'+err.message);
+		if(err) return logger.error(err);
 	})
 
 	Article.findOne({_id:_id},function(err,result){
@@ -82,21 +82,10 @@ router.post('/requestArticle/:id',function(req,res){
 	
 					Main.find({_id:{$in:result[0].comment}},function(err,results){
 						if(err){
-							reject('加载文章的时候，查询评论出错了')
+							reject(err)
 						}else{
-							
-
-
-
-
 
 							var mainComment = {comment:results}
-
-
-
-
-
-
 							resolve(results.reverse())
 						}
 					})

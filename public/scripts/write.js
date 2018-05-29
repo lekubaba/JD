@@ -192,5 +192,15 @@ $(document).ready(function(){
         }
     })
 
+
+
+    $('.article-manage').click(function(e){
+        // var unionId=e.currentTarget.id;
+        var url = '/article/manage/'
+        $.get(url,function(ret,status){
+            window.location.href = 'article/manage'
+        })
+    })
+
 });
 

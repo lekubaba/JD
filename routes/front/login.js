@@ -73,7 +73,7 @@ router.get('/wx/login', function (req, res, next) {
 			})
 			
 		}else{
-			logger.error('请求腾讯code出现异常');
+			logger.error(error);
 			return;
 	  	}
 	}

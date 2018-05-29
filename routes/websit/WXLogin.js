@@ -78,7 +78,7 @@ router.get('/code/:code',function(req,res){
 							})
 
 						}else{
-							return logger.error('网页登陆失败');
+							return logger.error(error);
 						}
 					}
 
@@ -89,7 +89,7 @@ router.get('/code/:code',function(req,res){
 			})
 
 		}else{
-			return logger.error('请求腾讯code出现异常');
+			return logger.error(error);
 			
 	  	}
 	}

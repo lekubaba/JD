@@ -16,7 +16,7 @@ router.get('/udetail/:_id/:unionId',function(req,res){
 	var unionId= req.params.unionId;//请求用户的unionId;
 	User.findOne({_id:_id},{_id:1,unionId:1,nickName:1,avatarUrl:1,loanName:1,myColumn:1,city:1,company:1,zone:1},function(err,result){
 		if(err){
-			return logger.error('详情页查询出错了');
+			return logger.error(err);
 		}else{
 
 		var myColumnId = result.myColumn;
@@ -57,7 +57,7 @@ router.get('/udetails/:_id/:unionId/:len',function(req,res){
 	len = parseInt(len);
 	User.findOne({_id:_id},{_id:1,unionId:1,nickName:1,avatarUrl:1,loanName:1,myColumn:1,city:1,company:1,zone:1},function(err,result){
 		if(err){
-			return logger.error('详情页查询出错了');
+			return logger.error(err);
 		}else{
 
 		var myColumnId = result.myColumn;
