@@ -8,7 +8,7 @@ router.get('/uptoken', function(req, res, next) {
     // var token = uptoken.token();
     res.header("Cache-Control", "max-age=0, private, must-revalidate");
     res.header("Pragma", "no-cache");
-    res.header("Expires", 0);
+    res.header("Expires", 5000);
     // if (token) {
         res.json({
             uptoken: uptoken

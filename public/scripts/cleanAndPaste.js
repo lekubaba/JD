@@ -28,6 +28,8 @@ function cleanAndPaste(html){
 
 	html = html.replace(/ /, "");
 
+
+
 	// Transform <P> to <DIV>
 
 	// var re = new RegExp("(<P)([^>]*>.*?)(<\/P>)","gi") ;

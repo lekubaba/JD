@@ -64,7 +64,8 @@ router.get('/code/:code',function(req,res){
 									followNum:0,
 									followedNum:0,
 									myColumnNum:0,
-									collNum:0
+									collNum:0,
+									isTop:0
 							});
 
 							user.save(function(err){

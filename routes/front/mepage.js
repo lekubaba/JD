@@ -14,7 +14,7 @@ let {formatDate} = require('../../utils/DateUtil');
 
 router.get('/me/show/:unionId',function(req,res){
 	var unionId = req.params.unionId;
-	User.findOne({unionId:unionId},{_id:0,followNum:1,myColumnNum:1,collNum:1},function(err,result){
+	User.findOne({unionId:unionId},{_id:0,followNum:1,followedNum:1,myColumnNum:1,collNum:1},function(err,result){
 		if(err){
 			logger.error(err);
 			return;
@@ -22,7 +22,7 @@ router.get('/me/show/:unionId',function(req,res){
 
 		if(!result){
 	
-			var datas = {followNum:0,myColumnNum:0,collNum:0}
+			var datas = {followNum:0,followedNum:0,myColumnNum:0,collNum:0}
 			return res.json(datas);
 				
 		}else{
@@ -76,8 +76,19 @@ router.get('/other/:unionId',function(req,res){
 		if(err){
 			return logger.error(err)
 		}else{
+
 			Article.find({_id:{$in:result[0].coll}},{_id:1,unionId:1,nickName:1,avatarUrl:1,time:1,title:1,lead:1,zanNum:1,kanNum:1},function(err,result1){
-				res.json(result1.reverse())
+				if(err){
+					return logger.error(err);
+				}
+				res.json(result1.reverse());
+				Article.count({_id:{$in:result[0].coll}},function(err,count){
+					User.update({unionId:unionId},{$set:{collNum:count}},function(err){
+						if(err){
+							return logger.err(err);
+						}
+					})
+				})
 			}).limit(10)
 
 		}
@@ -94,6 +105,9 @@ router.get('/others/:unionId/:len',function(req,res){
 			return logger.error(err)
 		}else{
 			Article.find({_id:{$in:result[0].coll}},{_id:1,unionId:1,nickName:1,avatarUrl:1,time:1,title:1,lead:1,zanNum:1,kanNum:1},function(err,result1){
+				if(err){
+					return logger.error(err);
+				}
 				res.json(result1.reverse())
 			}).limit(10).skip(len)
 
@@ -110,6 +124,9 @@ router.get('/follower/:unionId',function(req,res){
 			return logger.error(err)
 		}else{
 			User.find({unionId:{$in:result[0].follow}},{_id:1,unionId:1,nickName:1,avatarUrl:1,loanName:1},function(err,result1){
+				if(err){
+					return logger.error(err);
+				}
 				res.json(result1.reverse())
 			}).limit(30)
 
@@ -126,6 +143,46 @@ router.get('/followers/:unionId/:len',function(req,res){
 			return logger.error(err)
 		}else{
 			User.find({unionId:{$in:result[0].follow}},{_id:1,unionId:1,nickName:1,avatarUrl:1,loanName:1},function(err,result1){
+				if(err){
+					return logger.error(err);
+				}
+				res.json(result1.reverse())
+			}).limit(30).skip(len)
+
+		}
+	})
+});
+
+
+router.get('/followme/:unionId',function(req,res){
+	var unionId = req.params.unionId;
+	User.find({unionId:unionId},{_id:0,followed:1},function(err,result){
+		if(err){
+			return logger.error(err)
+		}else{
+			User.find({unionId:{$in:result[0].followed}},{_id:1,unionId:1,nickName:1,avatarUrl:1,loanName:1},function(err,result1){
+				if(err){
+					return logger.error(err);
+				}
+				res.json(result1.reverse())
+			}).limit(30)
+
+		}
+	})
+});
+
+router.get('/followmes/:unionId/:len',function(req,res){
+	var unionId = req.params.unionId;
+	var len = req.params.len;
+	len = parseInt(len);
+	User.find({unionId:unionId},{_id:0,followed:1},function(err,result){
+		if(err){
+			return logger.error(err)
+		}else{
+			User.find({unionId:{$in:result[0].followed}},{_id:1,unionId:1,nickName:1,avatarUrl:1,loanName:1},function(err,result1){
+				if(err){
+					return logger.error(err);
+				}
 				res.json(result1.reverse())
 			}).limit(30).skip(len)
 

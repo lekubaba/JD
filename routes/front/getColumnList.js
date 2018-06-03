@@ -17,7 +17,7 @@ router.get('/getColumnList/:site',function(req,res){
 		}else{
 			res.json(result)
 		}
-	}).sort({timeStamp:-1}).limit(10)
+	}).sort({isTop:-1,timeStamp:-1}).limit(10)
 
 });
 
@@ -32,7 +32,7 @@ router.get('/freshcolumn/:site/:len',function(req,res){
 		}else{
 			return res.json(result);
 		}
-	}).sort({timeStamp:-1}).limit(10).skip(len)
+	}).sort({isTop:-1,timeStamp:-1}).limit(10).skip(len)
 });
 
 

@@ -23,6 +23,17 @@ router.get('/followManage/:main/:sub',function(req,res){
 		}
 
 	})
+	User.update({'unionId':subId},{'$addToSet':{'followed':mainId},'$inc':{'followedNum':1}},function(err){
+		if(err){
+			logger.error(err);
+			return;
+		}else{
+			return
+		}
+
+	})
+
+
 });
 
 //取消关注
@@ -36,6 +47,15 @@ router.get('/followedManage/:main/:sub',function(req,res){
 			return;
 		}else{
 			return res.json({followStateCode:false})
+		}
+
+	})
+	User.update({'unionId':subId},{'$pull':{'follow':mainId},'$inc':{'followedNum':-1}},function(err){
+		if(err){
+			logger.error(err);
+			return;
+		}else{
+			return
 		}
 
 	})
