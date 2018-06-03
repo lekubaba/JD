@@ -62,7 +62,7 @@ router.get('/wx/login', function (req, res, next) {
 							logger.error(err);
 							return;
 						}else{
-							var datas = {_id:user._id,unionId:userId,followNum:0,followNum:0,myColumnNum:0,collNum:0}
+							var datas = {_id:user._id,unionId:userId,followNum:0,followedNum:0,myColumnNum:0,collNum:0}
 							return res.json(datas);
 						}
 						
