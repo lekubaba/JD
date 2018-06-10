@@ -42,6 +42,8 @@ app.use(multers);
 var bodyParser = require('body-parser');
 
 
+
+
 // 此时req对象还没有session这个属性
 // app.use(session({
 // 	resave:false,//是指每次请求都重新设置session cookie，假设你的cookie是10分钟过期，每次请求都会再设置10分钟

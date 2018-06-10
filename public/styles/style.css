@@ -135,29 +135,3 @@ input[type=text]:focus{border-color:#00a4ec}
     height: 16px;
     background-color: #3db04d;
 }
-
-#manage-content{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    width:100%;
-    height:auto;
-    margin-top:100px;
-}
-
-.content-list{
-    padding-top:20px;
-    width:630px;
-    height: 100px;
-    border-bottom: 1px solid #eee;
-    line-height: 30px;
-}
-
-.remove-article{
-    color:#666;
-}
-.remove-article:hover{
-    color:#ff5545;
-    cursor: pointer;
-}

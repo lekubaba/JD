@@ -1,4 +1,4 @@
-let {User,Follow,Followed,Article,Main,Sub} = require('../../mongoose/modelSchema')
+let {User,Column,Follow,Followed,Article,Main,Sub} = require('../../mongoose/modelSchema')
 var express = require('express');
 var router = express.Router();
 var request = require('request');
@@ -10,7 +10,7 @@ let CommonUtil = require('../../utils/CommonUtil');
 
 
 router.get('/loaction/sites',function(req,res){
-	User.find({isColumn:true},{_id:0,zone:1},function(err,data){
+	Column.find({},{_id:0,zone:1},function(err,data){
 		if(err){
 			return logger.error(err);
 		}else{

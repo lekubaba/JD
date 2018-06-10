@@ -1,6 +1,6 @@
 //用户登录注册
 var WXBizDataCrypt = require('../../utils/WXBizDataCrypt')
-let {User,Follow,Followed,Article,Main,Sub} = require('../../mongoose/modelSchema')
+let {User,Column,Follow,Followed,Article,Main,Sub} = require('../../mongoose/modelSchema')
 var express = require('express');
 var router = express.Router();
 var request = require('request');
@@ -37,7 +37,7 @@ router.get('/wx/login', function (req, res, next) {
 					avatarUrl:userInfo.avatarUrl,
 					gender:userInfo.gender,
 					city:userInfo.city,
-					introduce:'',
+					introduce:'暂无介绍',
 					zone:'',
 					company:'',
 					loanName:'',
@@ -47,10 +47,13 @@ router.get('/wx/login', function (req, res, next) {
 					followNum:0,
 					followedNum:0,
 					myColumnNum:0,
+					columnListNum:0,
+					followColumnNum:0,
 					collNum:0,
-					isTop:0
+					isTop:0,
+					isBlackList:false
 			});
-			User.findOne({unionId:userInfo.unionId},{_id:1,unionId:1,followNum:1,followedNum:1,myColumnNum:1,collNum:1},function(err,result){
+			User.findOne({unionId:userInfo.unionId},{_id:1,unionId:1,myColumnNum:1,collNum:1,followColumnNum:1,followedNum:1},function(err,result){
 				if(err){
 					logger.error(err);
 					return;
@@ -62,7 +65,7 @@ router.get('/wx/login', function (req, res, next) {
 							logger.error(err);
 							return;
 						}else{
-							var datas = {_id:user._id,unionId:userId,followNum:0,followedNum:0,myColumnNum:0,collNum:0}
+							var datas = {_id:user._id,unionId:userId,myColumnNum:0,collNum:0,followColumnNum:0,followedNum:0}
 							return res.json(datas);
 						}
 						

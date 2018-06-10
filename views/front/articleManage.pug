@@ -1,0 +1,24 @@
+doctype html
+html(lang="en")
+	head
+		title 文章管理
+		meta(http-equiv="Content-Type" content="text/html;charset=utf-8")
+		link(rel="shortcut icon" href="/images/picture/favicon.png")
+		link(rel="bookmark" href="/images/picture/favicon.png")
+		link(href="/styles/xhx.css" rel="stylesheet")
+	body
+		div.container
+			div.header
+				div.header-a
+					a.header-a-a(href="/home")
+						img(src="/images/xiaohongxian.png", alt="logo")
+					a.header-a-b(href="#")
+						img(src=avatarUrl)
+			div(id="manage-contents")
+				each item in articleList
+					div(class="content-lists")
+						h3(style="color:#333")=item.title
+						div(style="color:#999")=item.time
+							span(class="remove-article" id=`${item._id}`)    ·    删除
+	script(src="/scripts/jquery.min.js")
+	script(src="/scripts/articleManage.js")

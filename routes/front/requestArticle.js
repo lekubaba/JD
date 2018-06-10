@@ -1,4 +1,4 @@
-let {User,Follow,Followed,Article,Main,Sub} = require('../../mongoose/modelSchema')
+let {User,Column,Follow,Followed,Article,Main,Sub} = require('../../mongoose/modelSchema')
 var express = require('express');
 var router = express.Router();
 var request = require('request');
@@ -22,6 +22,7 @@ router.post('/requestArticle/:id',function(req,res){
 
 	Article.findOne({_id:_id},function(err,result){
 		var authorId = result.unionId;
+		var columnId =result.columnId;
 		var followStateCode;
 		var mPraiseStateCode;
 		var collectionStateCode;

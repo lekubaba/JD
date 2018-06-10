@@ -1,4 +1,4 @@
-let {User,Follow,Followed,Article,Main,Sub} = require('../../mongoose/modelSchema')
+let {User,Column,Follow,Followed,Article,Main,Sub} = require('../../mongoose/modelSchema')
 var express = require('express');
 var router = express.Router();
 var request = require('request');
@@ -11,11 +11,11 @@ let {formatDate} = require('../../utils/DateUtil');
 
 router.get('/getColumnList/:site',function(req,res){
 	var zone = req.params.site;
-	User.find({$or:[{zone:zone},{zone:'全国'}]},{follow:0,followed:0,coll:0,number:0,isVip:0,isColumn:0,zanArticle:0},function(err,result){
+	Column.find({$or:[{zone:zone},{zone:'全国'}]},{myColumn:0,isVip:0,timeStamp:0},function(err,result){
 		if(err){
 			return logger.error(err)
 		}else{
-			res.json(result)
+			return res.json(result)
 		}
 	}).sort({isTop:-1,timeStamp:-1}).limit(10)
 
@@ -26,7 +26,7 @@ router.get('/freshcolumn/:site/:len',function(req,res){
 	var zone = req.params.site;
 	var len = req.params.len
 	len = parseInt(len);
-	User.find({$or:[{zone:zone},{zone:'全国'}]},{follow:0,followed:0,coll:0,number:0,isVip:0,isColumn:0,zanArticle:0},function(err,result){
+	Column.find({$or:[{zone:zone},{zone:'全国'}]},{myColumn:0,isVip:0,timeStamp:0},function(err,result){
 		if(err){
 			return logger.error(err);
 		}else{

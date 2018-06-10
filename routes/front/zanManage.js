@@ -1,4 +1,4 @@
-let {User,Follow,Followed,Article,Main,Sub} = require('../../mongoose/modelSchema')
+let {User,Column,Follow,Followed,Article,Main,Sub} = require('../../mongoose/modelSchema')
 var express = require('express');
 var router = express.Router();
 var request = require('request');

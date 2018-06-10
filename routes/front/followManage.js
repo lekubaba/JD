@@ -1,4 +1,4 @@
-let {User,Follow,Followed,Article,Main,Sub} = require('../../mongoose/modelSchema')
+let {User,Column,Follow,Followed,Article,Main,Sub} = require('../../mongoose/modelSchema')
 var express = require('express');
 var router = express.Router();
 var request = require('request');
@@ -11,54 +11,71 @@ let {formatDate} = require('../../utils/DateUtil');
 
 //关注
 
-router.get('/followManage/:main/:sub',function(req,res){
+router.get('/followManage/:main/:sub/:columnId',function(req,res){
 	var mainId = req.params.main;//发起关注人的unionId
 	var subId = req.params.sub;//被关注人的unionId
-	User.update({'unionId':mainId},{'$addToSet':{'follow':subId},'$inc':{'followNum':1}},function(err){
+	var columnId = req.params.columnId;//被关注的专栏Id
+	User.update({'unionId':mainId},{'$addToSet':{'followColumn':columnId,'follow':subId},'$inc':{'followColumnNum':1,'followNum':1}},function(err){
 		if(err){
 			logger.error(err);
 			return;
 		}else{
-			return res.json({followStateCode:true})
+
+			User.findOne({'followed':mainId},function(err,ret){
+				if(err){
+					return logger.error(err)
+				}else if(!ret){
+
+					User.update({'unionId':subId},{'$addToSet':{'followed':mainId},'$inc':{'followedNum':1}},function(err){
+						if(err){
+							logger.error(err);
+							return;
+						}else{
+							return res.json({followStateCode:true});
+						}
+
+					})
+
+				}else{
+					return res.json({followStateCode:true});
+				}
+			})
+
+
+
+			
 		}
 
 	})
-	User.update({'unionId':subId},{'$addToSet':{'followed':mainId},'$inc':{'followedNum':1}},function(err){
-		if(err){
-			logger.error(err);
-			return;
-		}else{
-			return
-		}
-
-	})
-
 
 });
 
 //取消关注
 
-router.get('/followedManage/:main/:sub',function(req,res){
+router.get('/followedManage/:main/:sub/:columnId',function(req,res){
 	var mainId = req.params.main;//发起关注人的unionId
 	var subId = req.params.sub;//被关注人的unionId
-	User.update({'unionId':mainId},{'$pull':{'follow':subId},'$inc':{'followNum':-1}},function(err){
+	var columnId = req.params.columnId;//被关注的专栏Id
+	User.update({'unionId':mainId},{'$pull':{'followColumn':columnId},'$inc':{'followColumnNum':-1}},function(err){
 		if(err){
 			logger.error(err);
 			return;
 		}else{
-			return res.json({followStateCode:false})
+
+			// User.update({'unionId':subId},{'$pull':{'followed':mainId},'$inc':{'followedNum':-1}},function(err){
+			// 	if(err){
+			// 		logger.error(err);
+			// 		return;
+			// 	}else{
+					return res.json({followStateCode:false})
+			// 	}
+
+			// })			
+			
 		}
 
 	})
-	User.update({'unionId':subId},{'$pull':{'follow':mainId},'$inc':{'followedNum':-1}},function(err){
-		if(err){
-			logger.error(err);
-			return;
-		}else{
-			return
-		}
 
-	})
 });
 
 

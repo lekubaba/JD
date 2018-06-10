@@ -13,13 +13,11 @@ html(lang="en")
                     div(id="container-header")
                         img(id="wd-logo" src=`${avatarUrl}`)
                         div(id="wd-title")
-                            strong 写文章
+                            strong #{loanName}
                             span(class="remind-kit" style="font-size: 14px;color:#ff5545;padding-left: 15px;")
                         div(style="display: flex;align-items: center;")
                             div(id="editor-button" style="margin-right: 20px;")
-                                span 发布
-                            div(style="font-size: 12px;color:#888;cursor:pointer;")
-                                a(href="/article/manage" target="_blank") 文章管理S
+                                span(id=columnId) 发布
                 div(id="progress-bar")
                 div(id="editor-content")
                     div(id="editor-title")
@@ -33,4 +31,4 @@ html(lang="en")
     script(src="/scripts/qinius/demo/js/plupload/plupload.min.js")
     script(src="/scripts/qinius/src/qiniu.js")
     script(src="/scripts/cleanAndPaste.js")
-    script(src="/scripts/write.js")
+    script(src="/scripts/writeArticle.js")

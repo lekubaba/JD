@@ -1,4 +1,4 @@
-let {User,Follow,Followed,Article,Main,Sub} = require('../../mongoose/modelSchema')
+let {User,Column,Follow,Followed,Article,Main,Sub} = require('../../mongoose/modelSchema')
 var express = require('express');
 var router = express.Router();
 var request = require('request');
@@ -14,7 +14,7 @@ let {formatDate} = require('../../utils/DateUtil');
 
 router.get('/me/show/:unionId',function(req,res){
 	var unionId = req.params.unionId;
-	User.findOne({unionId:unionId},{_id:0,followNum:1,followedNum:1,myColumnNum:1,collNum:1},function(err,result){
+	User.findOne({unionId:unionId},{_id:0,myColumnNum:1,collNum:1,followColumnNum:1,followedNum:1},function(err,result){
 		if(err){
 			logger.error(err);
 			return;
@@ -22,7 +22,7 @@ router.get('/me/show/:unionId',function(req,res){
 
 		if(!result){
 	
-			var datas = {followNum:0,followedNum:0,myColumnNum:0,collNum:0}
+			var datas = {myColumnNum:0,collNum:0,followColumnNum:0,followedNum:0}
 			return res.json(datas);
 				
 		}else{
@@ -115,34 +115,34 @@ router.get('/others/:unionId/:len',function(req,res){
 	})
 });
 
+//我关注的
 
-
-router.get('/follower/:unionId',function(req,res){
+router.get('/ifollowta/:unionId',function(req,res){
 	var unionId = req.params.unionId;
-	User.find({unionId:unionId},{_id:0,follow:1},function(err,result){
+	User.findOne({unionId:unionId},{_id:0,followColumn:1},function(err,result){
 		if(err){
 			return logger.error(err)
 		}else{
-			User.find({unionId:{$in:result[0].follow}},{_id:1,unionId:1,nickName:1,avatarUrl:1,loanName:1},function(err,result1){
+			Column.find({_id:{$in:result.followColumn}},{_id:1,unionId:1,company:1,loanImg:1,loanName:1},function(err,result1){
 				if(err){
 					return logger.error(err);
 				}
-				res.json(result1.reverse())
+				return res.json(result1.reverse())
 			}).limit(30)
 
 		}
 	})
 });
 
-router.get('/followers/:unionId/:len',function(req,res){
+router.get('/ifollowtas/:unionId/:len',function(req,res){
 	var unionId = req.params.unionId;
 	var len = req.params.len;
 	len = parseInt(len);
-	User.find({unionId:unionId},{_id:0,follow:1},function(err,result){
+	User.findOne({unionId:unionId},{_id:0,followColumn:1},function(err,result){
 		if(err){
 			return logger.error(err)
 		}else{
-			User.find({unionId:{$in:result[0].follow}},{_id:1,unionId:1,nickName:1,avatarUrl:1,loanName:1},function(err,result1){
+			Column.find({_id:{$in:result.followColumn}},{_id:1,unionId:1,company:1,loanImg:1,loanName:1},function(err,result1){
 				if(err){
 					return logger.error(err);
 				}
@@ -153,6 +153,7 @@ router.get('/followers/:unionId/:len',function(req,res){
 	})
 });
 
+//关注我的
 
 router.get('/followme/:unionId',function(req,res){
 	var unionId = req.params.unionId;

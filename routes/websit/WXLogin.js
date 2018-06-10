@@ -1,4 +1,4 @@
-let {User,Follow,Followed,Article,Main,Sub} = require('../../mongoose/modelSchema')
+let {User,Column,Follow,Followed,Article,Main,Sub} = require('../../mongoose/modelSchema')
 var express = require('express');
 var router = express.Router();
 var request = require('request');
@@ -29,12 +29,12 @@ router.get('/code/:code',function(req,res){
 			var unionId =data.unionid;
 			var uris = 'https://api.weixin.qq.com/sns/userinfo?access_token='+access_token+'&openid='+openid;
 
-			User.findOne({unionId:unionId},{_id:0,isColumn:1,nickName:1,avatarUrl:1,zone:1},function(err,result){
+			User.findOne({unionId:unionId},{_id:0,isColumn:1,nickName:1,avatarUrl:1},function(err,result){
 				if(err){
 					return logger.error(err);
 				}else if(result){
 					
-					res.cookie('mycookies',{unionId:unionId,nickName:result.nickName,avatarUrl:result.avatarUrl,zone:result.zone},{signed:true,maxAge:6000*1000*1000,path:'/'});
+					res.cookie('mycookies',{unionId:unionId,nickName:result.nickName,avatarUrl:result.avatarUrl},{signed:true,maxAge:6000*1000*1000,path:'/'});
 
 					return res.json(result);
 					
@@ -54,7 +54,7 @@ router.get('/code/:code',function(req,res){
 									avatarUrl:datas.headimgurl,
 									gender:datas.sex,
 									city:datas.city,
-									introduce:'',
+									introduce:'想了解我，先关注我哦',
 									zone:'',
 									company:'',
 									loanName:'',
@@ -64,6 +64,8 @@ router.get('/code/:code',function(req,res){
 									followNum:0,
 									followedNum:0,
 									myColumnNum:0,
+									columnListNum:0,
+									followColumnNum:0,
 									collNum:0,
 									isTop:0
 							});
@@ -73,7 +75,7 @@ router.get('/code/:code',function(req,res){
 									return logger.error(err)
 								}else{
 									var result={isColumn:user.isColumn}
-									res.cookie('mycookies',{unionId:unionId,nickName:user.nickName,avatarUrl:user.avatarUrl,zone:user.zone},{signed:true,maxAge:6000*1000*1000,path:'/'});
+									res.cookie('mycookies',{unionId:unionId,nickName:user.nickName,avatarUrl:user.avatarUrl},{signed:true,maxAge:6000*1000*1000,path:'/'});
 									return res.json(result)
 								}
 							})

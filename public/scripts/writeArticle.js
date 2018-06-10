@@ -1,5 +1,6 @@
     //实例化编辑器
 $(document).ready(function(){
+    var imgUrl =[];
 
     var E = window.wangEditor;
     var editor = new E('#editor');
@@ -72,7 +73,6 @@ $(document).ready(function(){
                     });
                 },
                 'BeforeUpload': function(up, file) {
-                    console.log(file)
                     // 每个文件上传前,处理相关的事情
                     printLog('on BeforeUpload');
                 },
@@ -96,6 +96,7 @@ $(document).ready(function(){
                     var domain = up.getOption('domain');
                     var res = $.parseJSON(info);
                     var sourceLink = domain + res.key; //获取上传成功后的文件的Url
+                    imgUrl.push(res.key);
 
                     printLog(sourceLink);
 
@@ -170,7 +171,8 @@ $(document).ready(function(){
         var titles = $('#editor-input').val().replace(/\s/ig,'');
         var lead = $('#pre').val().replace(/\s/ig,'');
         var contents = editor.txt.html();
-        var data = {titles:titles,lead:lead,contents:contents};
+        var columnId=$('#editor-button span').attr('id');
+        var data = {titles:titles,lead:lead,contents:contents,imgUrl:imgUrl,columnId:columnId};
 
 
         if(titles.length<5){
@@ -190,16 +192,6 @@ $(document).ready(function(){
                 return editor.txt.clear();
             })   
         }
-    })
-
-
-
-    $('.article-manage').click(function(e){
-        // var unionId=e.currentTarget.id;
-        var url = '/article/manage/'
-        $.get(url,function(ret,status){
-            window.location.href = 'article/manage'
-        })
     })
 
 });

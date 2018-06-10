@@ -1,0 +1,16 @@
+- var value = [].concat(values)
+if value.length > 0
+	each item in value
+		a.content-list(href="#")
+			div.content-list-a
+				img(src=item.avatarUrl)
+				span.content-list-a-text-a #{item.nickName}
+				span.content-list-a-text ·
+				span.content-list-a-text #{item.time}
+			div.content-list-b #{item.title}
+			div.content-list-c #{item.lead}
+			div.content-list-d
+				span.content-list-d-a #{item.zanNum}  赞
+				span.content-list-d-a #{item.kanNum}  浏览
+else
+	div#not-enough --到底啦，没有更多了--

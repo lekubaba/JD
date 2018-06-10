@@ -1,0 +1,10 @@
+div(class="popout")
+	div(style="position: relative;border:1px solid #fff;")
+		div(class="action-left")
+		i(class="iconfont icon-close btn-close")
+		h4(class="popout-title zh") 为哪个口子写文章？
+	div( class="form-row")
+		each item in val
+			a(href="/write/" + item._id + "/" +item.loanName style="width:45%;margin:5px;" target="_blank")
+				button(class="data-v-getcard"  style="width: 100%; height: 34px;") #{item.loanName}
+script(src="/scripts/forWhoWrite.js")

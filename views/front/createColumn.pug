@@ -47,19 +47,23 @@ html(lang="en")
 						li 专栏申请人需具备一定的写作能力，能对自己的产品做出通俗易懂的文章创作；
 					p 专栏申请将在60秒内通过申请，通过即可以马上创作。
 					hr
-					h4 公司名称
-					input(type="text" id="company" name="company" placeholder="注意：请填写公司名称" maxlength="15")
-					h4 主营贷款产品名称
-					input(type="text" id="loanName" name="loanName" placeholder="注意：请填写要分享的贷款产品名称" maxlength="8")
+					h4(class="icon-img") 为口子添加一个LOGO
+						span(style="color:#ff5545;font-size:14px;") (建议：120px * 120px)
+					img#icon-img(src='/images/icon-a.png')
+					h4 要分享的口子名称
+					input(type="text" id="loanName" name="loanName" placeholder="例：建行快贷" maxlength="8")
+					h4 口子对应的公司
+					input(type="text" id="company" name="company" placeholder="例：中国建设银行" maxlength="15")
 					h4(id="zone") 产品面向的城市
 					div(class="column-zone")
 						select(id="province" class="column-zone-a")
 						select(id="city" class="column-zone-a")
-					h4 作者简介
-					textarea(id="introduce" name="introduction" maxlength="140" placeholder="不超过140个字符")
 					div(class="column-button")
 						div(class="column-buttona") 注意：一个账号只能申请一次，请注意填写
 						div(class="column-buttons") 申请
 script(src="/scripts/city.js")
 script(src="/scripts/jquery.min.js")
-script(src="/scripts/column.js")
+script(src="/scripts/qinius/demo/js/plupload/moxie.min.js")
+script(src="/scripts/qinius/demo/js/plupload/plupload.min.js")
+script(src="/scripts/qinius/src/qiniu.js")
+script(src="/scripts/createColumn.js")

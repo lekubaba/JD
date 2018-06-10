@@ -357,4 +357,17 @@ textarea{
 	background: #ff5545;
 }
 
+#icon-img{
+	width:120px;
+	height: 120px;
+	cursor: pointer;
+	transition: opacity .2s;
+}
+
+#icon-img:hover{
+	opacity:0.4;
+	filter:alpha(opacity=40); /* 针对 IE8 以及更早的版本 */
+}
+
+
 

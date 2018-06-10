@@ -1,0 +1,31 @@
+doctype html
+html(lang="en")
+	head
+		title 专栏管理
+		meta(http-equiv="Content-Type" content="text/html;charset=utf-8")
+		link(rel="shortcut icon" href="/images/picture/favicon.png")
+		link(rel="bookmark" href="/images/picture/favicon.png")
+		link(href="/styles/xhx.css" rel="stylesheet")
+	body
+		div.container
+			div.header
+				div.header-a
+					a.header-a-a(href="/home")
+						img(src="/images/xiaohongxian.png", alt="logo")
+					a.header-a-b(href="#")
+						img(src=avatarUrl)
+			div.content
+				div.content-content
+					div.nav-sub
+				div.content-side
+					div.nav-user(style="margin:0;")
+						each item in columnList
+							div.nav-user-list
+								img(src=item.loanImg, alt="img")
+								div.nav-user-fontsize #{item.loanName}
+					div.nav-footer
+						span Copyright © 2018    湘ICP备17023660号-1
+						span 小红线-信贷员聚集地
+		div(class="mask" style="display: none;")
+	script(src='/scripts/jquery.min.js')
+	script(src="/scripts/columnManage.js")

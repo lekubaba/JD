@@ -40,10 +40,10 @@ $(document).ready(function(){
 		var url = '/code/'+code;
 		$.get(url,function(data,status){
 			if(data.isColumn===false){
-				return window.location.href='column'
+				return window.location.href='home'
 			}
 			if(data.isColumn===true){
-				return window.location.href='write'
+				return window.location.href='home'
 			}
 		})
 	}

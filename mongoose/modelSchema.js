@@ -17,18 +17,23 @@ var userSchema = new Schema({
 	isVip:Boolean,
 	introduce:String,
 	isColumn:Boolean,
+	columnList:[String],
+	columnListNum:Number,
 	achievement:String,
 	zanArticle:[String],
 	follow:[String],
 	followNum:Number,
 	followed:[String],
 	followedNum:Number,
+	followColumn:[String],
+	followColumnNum:Number,
 	myColumn:[String],
 	myColumnNum:Number,
 	coll:[String],
 	collNum:Number,
 	timeStamp:Number,
-	isTop:Number
+	isTop:Number,
+	isBlackList:Boolean
 });
 
 
@@ -51,17 +56,36 @@ var follewedSchema = new Schema({
 	loanName:String	
 })
 
+// 添加的专栏数据模型
+
+var columnSchema = new Schema({
+	unionId:String,
+	zone:String,
+	loanName:String,
+	nickName:String,
+	loanImg:String,
+	company:String,
+	achievement:String,
+	myColumn:[String],
+	myColumnNum:Number,
+	timeStamp:Number,
+	isTop:Number,
+	isCheck:Boolean
+})
+
 
 
 // 文章数据模型
 var articleSchema = new Schema({
 	unionId:String,
+	columnId:String,
 	nickName:String,
 	avatarUrl:String,
 	zone:String,
 	title:String,
 	lead:String,
 	content:String,
+	imgUrl:[String],
 	time:String,
 	zanNum:Number,
 	kanNum:Number,
@@ -69,7 +93,8 @@ var articleSchema = new Schema({
 	commentNum:Number,
 	comment:[String],
 	timeStamp:Number,
-	isTop:Number
+	isTop:Number,
+	isCheck:Boolean
 });
 
 //主评论
@@ -81,7 +106,8 @@ var mainSchema = new Schema({
 	content:String,
 	time:String,
 	zanNum:Number,
-	comment:[{_id:String,unionId:String,nickName:String,content:String}]	
+	comment:[{_id:String,unionId:String,nickName:String,content:String}],
+	isTop:Number
 })
 //副评论
 
@@ -93,6 +119,7 @@ var subSchema = new Schema({
 
 
 var User = mongoose.model('user',userSchema);
+var Column = mongoose.model('column',columnSchema);
 var Follow = mongoose.model('follow',follewSchema);
 var Followed = mongoose.model('followed',follewedSchema);
 var Article = mongoose.model('article',articleSchema);
@@ -101,6 +128,7 @@ var Sub = mongoose.model('sub',subSchema);
 
 
 module.exports.User = User;
+module.exports.Column = Column;
 module.exports.Follow = Follow;
 module.exports.Followed = Followed;
 module.exports.Article = Article;
