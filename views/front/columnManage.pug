@@ -17,12 +17,29 @@ html(lang="en")
 			div.content
 				div.content-content
 					div.nav-sub
+						div.nav-sub-list(style="width:auto")
+							div.nav-sub-itemss(style="width:auto") 全部文章
+							div.nav-sub-itemss(style="width:auto") (#{myColumnNum})
+					each item in articleList
+						a.content-list(href="#")
+							div.content-list-a
+								img(src=item.avatarUrl)
+								span.content-list-a-text-a #{item.nickName}
+								span.content-list-a-text ·
+								span.content-list-a-text #{item.time}
+							div.content-list-b #{item.title}
+							div.content-list-c #{item.lead}
+							div.content-list-d
+								span.content-list-d-a #{item.zanNum}  赞
+								span.content-list-d-a #{item.kanNum}  浏览
 				div.content-side
 					div.nav-user(style="margin:0;")
 						each item in columnList
-							div.nav-user-list
-								img(src=item.loanImg, alt="img")
-								div.nav-user-fontsize #{item.loanName}
+							div.nav-user-lists(id=item._id)
+								div.nav-user-list-s
+									img(src=item.loanImg, alt="img")
+									div.nav-user-fontsize #{item.loanName}
+								div.nav-sub-changes(class="iconfont-s icon-empty column-remove" style="display:none;font-size:18px;")
 					div.nav-footer
 						span Copyright © 2018    湘ICP备17023660号-1
 						span 小红线-信贷员聚集地

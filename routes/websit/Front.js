@@ -265,14 +265,14 @@ router.get('/chooseColumn',function(req,res){
 					return res.render('front/files/notColumn');
 				}else{
 
-					res.render('front/files/forWhoWrite',{val:ret});
+					return res.render('front/files/forWhoWrite',{val:ret});
 				}
 
 			}
 		})
 		
 	}else{
-		res.redirect('/');
+		return res.redirect('/');
 	}
 })
 
@@ -282,23 +282,176 @@ router.get('/column/manage',function(req,res){
 	if(req.signedCookies.mycookies){
 		var unionId = req.signedCookies.mycookies.unionId;
 		
-		User.findOne({unionId:unionId},{_id:0,columnList:1},function(err,result){
+		User.findOne({unionId:unionId},{_id:0,columnList:1,myColumn:1,myColumnNum:1},function(err,result){
 			if(err){
 				return logger.error(err)
 			}
 			if(result.columnList.length===0){
-				return res.render('front/columnManage',{avatarUrl:req.signedCookies.mycookies.avatarUrl,columnList:''})
+				return res.render('front/columnManage',{avatarUrl:req.signedCookies.mycookies.avatarUrl,columnList:'',articleList:'',myColumnNum:0})
 			}else{
-				var _id = result.columnList;
-				Column.find({_id:{$in:_id}},{_id:1,loanImg:1,company:1,loanName:1,zone:1},function(err,ret){
-					return res.render('front/columnManage',{avatarUrl:req.signedCookies.mycookies.avatarUrl,columnList:ret})
-				})
+
+				Article.find({_id:{$in:result.myColumn}},{_id:1,nickName:1,avatarUrl:1,time:1,zanNum:1,kanNum:1,title:1,lead:1},function(err,rets){
+
+					if(err){
+						return logger.error(err)
+					}else{
+
+
+						var _id = result.columnList;
+						Column.find({_id:{$in:_id}},{_id:1,loanImg:1,company:1,loanName:1,zone:1},function(err,ret){
+							return res.render('front/columnManage',{avatarUrl:req.signedCookies.mycookies.avatarUrl,columnList:ret,articleList:rets,myColumnNum:result.myColumnNum})
+						})	
+					}
+				}).limit(6);
 			}
 		})
 	}else{
 		res.redirect('/');
 	}
 })
+
+router.get('/columns/:len',function(req,res){
+	var len = req.params.len;
+	len = parseInt(len);
+	if(req.signedCookies.mycookies){
+		var unionId = req.signedCookies.mycookies.unionId;
+		User.findOne({unionId:unionId},{myColumn:1},function(err,result){
+
+			Article.find({_id:{$in:result.myColumn}},{_id:1,nickName:1,avatarUrl:1,time:1,zanNum:1,kanNum:1,title:1,lead:1},function(err,ret){
+				if(err){
+					return logger.error(err)
+				}else{
+					res.render('front/files/loadFile',{values:ret});
+				}
+			}).limit(4).skip(len)
+			
+
+		})
+
+	}else{
+		res.redirect('/');
+	}
+})
+
+router.get('/columns/articles/:columnId',function(req,res){
+	var columnId = req.params.columnId;
+	if(req.signedCookies.mycookies){
+		var unionId = req.signedCookies.mycookies.unionId;
+		Column.findOne({_id:columnId},{myColumn:1,myColumnNum:1},function(err,result){
+
+			Article.find({_id:{$in:result.myColumn}},{_id:1,nickName:1,avatarUrl:1,time:1,zanNum:1,kanNum:1,title:1,lead:1},function(err,ret){
+				if(err){
+					return logger.error(err)
+				}else{
+					res.render('front/files/loadFile',{values:ret});
+				}
+			})
+			
+
+		})
+
+	}else{
+		res.redirect('/');
+	}
+})
+
+
+router.get('/remove/column/:columnId',function(req,res){
+	var columnId = req.params.columnId;
+	var loanImg;
+	if(req.signedCookies.mycookies){
+		var unionId = req.signedCookies.mycookies.unionId;
+		Column.findOne({_id:columnId},{myColumnNum:1,loanImg:1},function(err,datas){
+			if(err){
+				return logger.error(err)
+			}else{
+				var nums = datas.myColumnNum;
+				if(nums>0){
+					return res.send('no');
+				}else{
+
+					User.update({unionId:unionId},{$pull:{columnList:columnId},$inc:{columnListNum:-1}},function(err){
+						if(err){
+							return logger.error(err)
+						}else{
+
+							//删除专栏
+
+							Column.remove({_id:columnId},function(err){
+								if(err){
+									return logger.error(err)
+								}else{
+
+									//删除column loanImg
+
+									var imgs = datas.loanImg;
+									imgs = imgs.split('/');
+									var deleteOperations= [];
+									deleteOperations.push(qiniu.rs.deleteOp('xiaohongxian', imgs[imgs.length-1]));
+
+									bucketManager.batch(deleteOperations, function(err, respBody, respInfo) {
+									  if (err) {
+											return logger.error(err)
+									    //throw err;
+									  }else {
+									    // 200 is success, 298 is part success
+									    if (parseInt(respInfo.statusCode / 100) == 2) {
+									      respBody.forEach(function(item) {
+									        if (item.code == 200) {
+									          logger.info(item.code + "\tsuccess");
+											return res.send('success');
+
+									        }else {
+									          logger.info(item.code + "\t" + item.data.error);
+									          return res.send('success');
+									        }
+									      });
+									    }else {
+											logger.info(respInfo.deleteusCode);
+											logger.info(respBody);
+									    }
+									  }
+									});
+
+								}
+							})
+
+						}
+
+					})
+
+				}	
+			}
+		})
+
+
+	}else{
+		res.redirect('/');
+	}
+})
+
+
+router.get('/notRemoveColumn',function(req,res){
+	if(req.signedCookies.mycookies){
+		return res.render('front/files/notRemoveColumn')
+		
+	}else{
+		return res.redirect('/');
+	}
+})
+
+
+router.get('/removeColumnSuccess',function(req,res){
+	if(req.signedCookies.mycookies){
+		return res.render('front/files/removeColumnSuccess')
+		
+	}else{
+		return res.redirect('/');
+	}
+})
+
+
+
 
 
 module.exports = router;
