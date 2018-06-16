@@ -1,0 +1,14 @@
+[2018-06-16T21:38:46.091] [INFO] xiaohongxian - server is running:80
+[2018-06-16T21:38:46.092] [INFO] xiaohongxian - server is running:443
+[2018-06-16T21:38:46.130] [INFO] xiaohongxian - 数据库连接成功
+[2018-06-16T21:39:30.129] [INFO] xiaohongxian - undefined
+[2018-06-16T21:39:30.130] [INFO] xiaohongxian - { error: 'form key not found, missing \'op\'' }
+[2018-06-16T21:39:31.618] [INFO] xiaohongxian - undefined
+[2018-06-16T21:39:31.618] [INFO] xiaohongxian - { error: 'form key not found, missing \'op\'' }
+[2018-06-16T21:39:32.653] [INFO] xiaohongxian - undefined
+[2018-06-16T21:39:32.653] [INFO] xiaohongxian - { error: 'form key not found, missing \'op\'' }
+[2018-06-16T21:39:33.775] [INFO] xiaohongxian - undefined
+[2018-06-16T21:39:33.775] [INFO] xiaohongxian - { error: 'form key not found, missing \'op\'' }
+[2018-06-16T21:39:34.878] [INFO] xiaohongxian - undefined
+[2018-06-16T21:39:34.879] [INFO] xiaohongxian - { error: 'form key not found, missing \'op\'' }
+[2018-06-16T21:39:40.543] [INFO] xiaohongxian - 612	no such file or directory
