@@ -1,0 +1,28 @@
+doctype html
+html(lang="en" class="no-js")
+    head
+        meta(charset="utf-8")
+        title 小红线-后端
+        link(rel="shortcut icon" href="/images/favicon.png")
+        link(rel="bookmark" href="/images/favicon.png")
+        link(rel="icon" href="/images/favicon.png" type="image/png")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0")
+        meta(http-equiv="X-UA-Compatible" content="ie=edge")
+        meta(name="description" content="none")
+        meta(name="author" content="lekubaba")
+        //CSS 
+        link(rel="stylesheet" href="/styles/admin.css")
+    body
+        div(class="iconfont")
+            img(src="/images/xiaohongxian.png" style="width:130px;height:auto;")
+        div(class="page-container")
+            h2=errors
+            form(action="/xiaohong/home" method="post")
+                input(type="text" name="username" class="username" placeholder="用户名")
+                input(type="password" name="password" class="password" placeholder="密码")
+                button(type="submit") 登陆
+                div(class="error")
+                    span +
+        // Javascript
+        script(src="/scripts/jquery.min.js")
+        script(src="/scripts/admin.js")

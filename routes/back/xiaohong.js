@@ -10,18 +10,66 @@ var Forbidden = require('../../utils/Forbidden');
 var message = require('../../message');
 
 
+
+//登陆小红线后端
+
+router.get('/xiaohong/backend/admin',function(req,res){
+	res.render('admin/admin');
+})
+
+
+
+// 登陆后台 post 请求重定向到后台首页；
+
+router.post('/xiaohong/home',function(req,res){
+
+	if(req.signedCookies.mycookies){
+
+		if(req.body.username=='chengfabiao'&&req.body.password=='cfb@123456'){
+
+			if(req.signedCookies.managerCookies){
+				res.redirect('/xiaohong/home');
+			}else{
+				res.cookie('managerCookies',{name:req.body.username},{signed:true,maxAge:60000*1000,path:'/'});
+				res.redirect('/xiaohong/home');
+			}
+
+		}else{
+			res.render('admin/admin',{errors:'账号或者密码不正确'});
+		}		
+
+	}else{
+		return res.redirect('/');
+	}
+
+})
+
+// 发出get请求；
+
+
 router.get('/xiaohong/home',function(req,res){
 	if(req.signedCookies.mycookies){
-		res.render('admin/xiaohong',{avatarUrl:req.signedCookies.mycookies.avatarUrl});
+		if(req.signedCookies.managerCookies){
+			res.render('admin/xiaohong',{avatarUrl:req.signedCookies.mycookies.avatarUrl});
+
+		}else{
+			return res.redirect('/');		
+		}
+
 	}else{
 		res.redirect('/');
 	}
 })
 
 
+
+
+
+
 router.get('/xiaohong/content/:listId',function(req,res){
 
 	if(req.signedCookies.mycookies){
+
 		var listId = req.params.listId;
 
 		if(listId==='articlecheck'){
@@ -40,7 +88,9 @@ router.get('/xiaohong/content/:listId',function(req,res){
 
 	}else{
 		res.redirect('/');
-	}	
+	}
+
+
 
 })
 
