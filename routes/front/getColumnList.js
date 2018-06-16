@@ -11,7 +11,7 @@ let {formatDate} = require('../../utils/DateUtil');
 
 router.get('/getColumnList/:site',function(req,res){
 	var zone = req.params.site;
-	Column.find({$or:[{zone:zone},{zone:'全国'}]},{myColumn:0,isVip:0,timeStamp:0},function(err,result){
+	Column.find({$or:[{zone:zone},{zone:'全国'}],isCheck:'success'},{myColumn:0,isVip:0,timeStamp:0},function(err,result){
 		if(err){
 			return logger.error(err)
 		}else{
@@ -26,7 +26,7 @@ router.get('/freshcolumn/:site/:len',function(req,res){
 	var zone = req.params.site;
 	var len = req.params.len
 	len = parseInt(len);
-	Column.find({$or:[{zone:zone},{zone:'全国'}]},{myColumn:0,isVip:0,timeStamp:0},function(err,result){
+	Column.find({$or:[{zone:zone},{zone:'全国'}],isCheck:'success'},{myColumn:0,isVip:0,timeStamp:0},function(err,result){
 		if(err){
 			return logger.error(err);
 		}else{

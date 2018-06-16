@@ -1,0 +1,26 @@
+doctype html
+html(lang="en")
+	include files/head.pug
+	body
+		div.container
+			div.header
+				div.header-a
+					a.header-a-a(href="/home")
+						img(src="/images/xiaohongxian.png", alt="logo")
+					div.header-a-c
+						a.header-a-d(href="/see/message" class="iconfont5 icon-tixing" style="color:#8590a6")
+						a.header-a-b(href="#")
+							img(src=avatarUrl)
+			div.contentsss(style="background-color:#fff;margin-top:65px;border-radius:5px;")
+				each item in ret.reverse()
+					div.content-message-list(id=item._id)
+						div.content-message-list-a
+							if item.isRead
+								div.aa=item.title
+							else
+								div.aa(style="color:#333;")=item.title
+							div.bb=item.time
+						div.content-message-list-b(style="display:none")=item.content
+		div(class="mask" style="display: none;")
+	script(src='/scripts/jquery.min.js')
+	script(src='/scripts/messagePage.js')

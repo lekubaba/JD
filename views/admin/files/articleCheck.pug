@@ -1,0 +1,13 @@
+each item in ret
+	a.content-list(href="/article/check/"+item._id target="_blank")
+		div.content-list-a
+			img(src=item.avatarUrl)
+			span.content-list-a-text-a #{item.nickName}
+			span.content-list-a-text ·
+			span.content-list-a-text #{item.time}
+		div.content-list-b #{item.title}
+		div.content-list-c #{item.lead}
+		div.content-list-d
+			span.content-list-d-a(class='a') 不通过
+			span.content-list-d-a(class='b') 通过
+script(src="/scripts/articleCheck.js")

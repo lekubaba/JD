@@ -16,6 +16,15 @@ $(document).ready(function(){
 		
 	});
 
+	$('.nav-sub-items,.nav-sub-change,.nav-user-list,.content-list').click(function(e){
+		$(".mask").css("display","");
+		$(".mask").load("/miniprogram");
+	})
+
+
+
+
+
 
 
 
@@ -67,6 +76,9 @@ window.onscroll = function () {
 	} 
 
 }
+
+
+
 
 
 

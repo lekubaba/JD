@@ -39,7 +39,6 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(express.static(__dirname+'/public'));
 app.use(urlencodedParser);
 app.use(multers);
-var bodyParser = require('body-parser');
 
 
 
@@ -56,6 +55,8 @@ var bodyParser = require('body-parser');
 
 
 app.use(cookieParser('im a secret for cookies'));
+
+
 
 /*自动加载路由，引入自动加载路由模块*/
 var route = require('./utils/route');

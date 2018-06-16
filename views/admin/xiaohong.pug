@@ -1,0 +1,31 @@
+doctype html
+html
+	include files/head.pug
+	body
+		div.xiaohong-top
+			div.xiaohong-side
+				a(href='/xiaohong/home')
+					img(src="/images/xiaohongxian.png", alt="logo")
+				div.xiaohong-side-list
+					a.xiaohong-list(href="/xiaohong/content/columncheck" id="columncheck")
+						div(class='iconfont icon-shenhe')
+						span 专栏审核
+					a.xiaohong-list(href="/xiaohong/content/articlecheck" id="articlecheck")
+						div(class='iconfont icon-shenhe1')
+						span 文章审核
+					//- a.xiaohong-list(id="backmanage")
+					//- 	div(class='iconfont icon-heimingdan')
+					//- 	span 黑名单管理
+					//- a.xiaohong-list(id="usermanage")
+					//- 	div(class='iconfont icon-users')
+					//- 	span 用户管理
+					//- a.xiaohong-list(id="vipmanage")
+					//- 	div(class='iconfont icon-vip')
+					//- 	span 会员管理
+			div.xiaohong-content
+				div.xhx-c-h
+					img(src=avatarUrl, alt="uLogo")
+				div.xhx-c-c
+	script(src="/scripts/jquery.min.js")
+	script(src="/scripts/end.js")
+

@@ -70,7 +70,19 @@ var columnSchema = new Schema({
 	myColumnNum:Number,
 	timeStamp:Number,
 	isTop:Number,
-	isCheck:Boolean
+	isCheck:String
+})
+
+
+// 用户消息提醒
+
+var messageSchema = new Schema({
+	unionId:String,
+	title:String,
+	content:String,
+	time:String,
+	timeStamp:Number,
+	isRead:Boolean
 })
 
 
@@ -94,7 +106,7 @@ var articleSchema = new Schema({
 	comment:[String],
 	timeStamp:Number,
 	isTop:Number,
-	isCheck:Boolean
+	isCheck:String
 });
 
 //主评论
@@ -120,6 +132,7 @@ var subSchema = new Schema({
 
 var User = mongoose.model('user',userSchema);
 var Column = mongoose.model('column',columnSchema);
+var Message = mongoose.model('message',messageSchema);
 var Follow = mongoose.model('follow',follewSchema);
 var Followed = mongoose.model('followed',follewedSchema);
 var Article = mongoose.model('article',articleSchema);
@@ -129,6 +142,7 @@ var Sub = mongoose.model('sub',subSchema);
 
 module.exports.User = User;
 module.exports.Column = Column;
+module.exports.Message = Message;
 module.exports.Follow = Follow;
 module.exports.Followed = Followed;
 module.exports.Article = Article;

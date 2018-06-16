@@ -1,0 +1,20 @@
+doctype html
+html
+	include files/head.pug
+	body
+		div.xiaohong-top
+			div.xiaohong-side
+				a(href='/xiaohong/home')
+					img(src="/images/xiaohongxian.png", alt="logo")
+			div.xiaohong-content
+				div.xhx-c-h
+					img(src=ret.avatarUrl, alt="uLogo")
+				div.xhx-c-c(style="padding:100px 250px 110px 250px;")
+					div.xhx-c-c-head(style="margin:10px 0 20px 0;")
+						img(src=ret.avatarUrl, alt="")
+						span.content-list-a-text-a #{ret.nickName}
+						span.content-list-a-text ·
+						span.content-list-a-text #{ret.time}
+					div.xhx-c-c-content!=ret.content
+	script(src="/scripts/jquery.min.js")
+	script(src="/scripts/end.js")

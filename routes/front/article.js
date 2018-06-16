@@ -10,6 +10,8 @@ var Forbidden = require('../../utils/Forbidden');
 var message = require('../../message');
 
 
+
+
 router.post('/article',function(req,res){
 	
 	var unionId=req.signedCookies.mycookies.unionId;
@@ -43,7 +45,7 @@ router.post('/article',function(req,res){
 				kanNum:0,
 				timeStamp:Date.now(),
 				isTop:0,
-				isCheck:false
+				isCheck:'no'
 			})
 
 			article.save(function(err){

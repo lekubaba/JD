@@ -7,8 +7,12 @@ html(lang="en")
 				div.header-a
 					a.header-a-a(href="/home")
 						img(src="/images/xiaohongxian.png", alt="logo")
-					a.header-a-b(href="#")
-						img(src=avatarUrl)
+					div.header-a-c
+						a.header-a-d(href="/see/message" class="iconfont5 icon-tixing" style="color:#8590a6")
+							if count>0
+								span.header-a-d-txt
+						a.header-a-b(href="#")
+							img(src=avatarUrl)
 			div.content
 				div.content-content
 					div.nav-sub
@@ -18,7 +22,7 @@ html(lang="en")
 						div.nav-sub-change(class="iconfont-s icon-sites") 切换城市
 					- var values = [].concat(ret)
 					each item in values
-						a.content-list(href="#")
+						a.content-list
 							div.content-list-a
 								img(src=item.avatarUrl)
 								span.content-list-a-text-a #{item.nickName}

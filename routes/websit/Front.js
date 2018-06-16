@@ -1,4 +1,4 @@
-let {User,Column,Follow,Followed,Article,Main,Sub} = require('../../mongoose/modelSchema')
+let {User,Column,Message,Follow,Followed,Article,Main,Sub} = require('../../mongoose/modelSchema')
 var qiniu = require('qiniu');
 var configs = require('../../config/config.js');
 var express = require('express');
@@ -24,11 +24,18 @@ router.get('/',function(req,res){
 router.get('/home',function(req,res){
 	if(req.signedCookies.mycookies){
 		var unionId = req.signedCookies.mycookies.unionId;
-		Article.find({},{_id:1,nickName:1,avatarUrl:1,time:1,zanNum:1,kanNum:1,title:1,lead:1},function(err,ret){
+		Article.find({isCheck:'success'},{_id:1,nickName:1,avatarUrl:1,time:1,zanNum:1,kanNum:1,title:1,lead:1},function(err,ret){
 			if(err){
 				return logger.error(err)
 			}else{
-				res.render('front/homePage',{ret:ret,avatarUrl:req.signedCookies.mycookies.avatarUrl});
+				Message.count({unionId:unionId,isRead:false},function(err,count){
+					if(err){
+						return logger.error(err);
+					}else{
+						return res.render('front/homePage',{ret:ret,avatarUrl:req.signedCookies.mycookies.avatarUrl,count:count});
+						
+					}
+				})
 			}
 		}).limit(8)
 	}else{
@@ -41,7 +48,7 @@ router.get('/homes/:len',function(req,res){
 	len = parseInt(len);
 	if(req.signedCookies.mycookies){
 		var unionId = req.signedCookies.mycookies.unionId;
-		Article.find({},{_id:1,nickName:1,avatarUrl:1,time:1,zanNum:1,kanNum:1,title:1,lead:1},function(err,ret){
+		Article.find({isCheck:'success'},{_id:1,nickName:1,avatarUrl:1,time:1,zanNum:1,kanNum:1,title:1,lead:1},function(err,ret){
 			if(err){
 				return logger.error(err)
 			}else{
@@ -107,12 +114,19 @@ router.get('/article/manage',function(req,res){
 router.get('/column',function(req,res){
 	if(req.signedCookies.mycookies){
 		var unionId = req.signedCookies.mycookies.unionId;
-		User.findOne({unionId:unionId},{_id:0,isColumn:1,avatarUrl:1},function(err,result){
+		User.findOne({unionId:unionId},{_id:0,isColumn:1,avatarUrl:1,columnListNum:1,isVip:1},function(err,result){
 			if(err){
 				return logger.error(err)
 			}else{
+				if(result.isVip===true){
 
-				res.render('front/createColumn',{avatarUrl:result.avatarUrl})
+					return res.render('front/createColumn',{avatarUrl:result.avatarUrl})
+				}else if(result.columnListNum<1){
+					return res.render('front/createColumn',{avatarUrl:result.avatarUrl})
+				}else if(result.columnListNum===1){
+					return res.render('front/onePage',{avatarUrl:result.avatarUrl})
+				}
+
 			}
 	
 		})
@@ -137,7 +151,7 @@ router.post('/addcolumn',function(req,res){
 		myColumnNum:0,
 		timeStamp:Date.now(),
 		isTop:0,
-		isCheck:false
+		isCheck:'no'
 	})
 
 	column.save(function(err){
@@ -154,9 +168,31 @@ router.post('/addcolumn',function(req,res){
 						return logger.error(err)
 					}else{
 
-						res.cookie('mycookies',{unionId:result.unionId,nickName:result.nickName,avatarUrl:result.avatarUrl},{signed:true,maxAge:6000*1000*1000,path:'/'});
 
-						return res.redirect('/home');
+
+
+						var message = new Message({
+								unionId:unionId,
+								title:'专栏：" '+column.loanName+'" 审核中...',
+								content:'专栏"'+column.loanName+'" 已经进入审核，审核结果将会发布在这里，请留意；',
+								time:formatDate('yyyy-MM-dd'),
+								timeStamp:Date.now(),
+								isRead:false
+						})
+
+
+						message.save(function(err){
+							if(err){
+								return logger.error(err);
+							}else{
+
+								res.cookie('mycookies',{unionId:result.unionId,nickName:result.nickName,avatarUrl:result.avatarUrl},{signed:true,maxAge:6000*1000*1000,path:'/'});
+
+								return res.redirect('/home');
+
+								
+							}
+						})
 					}
 				})
 
@@ -257,7 +293,7 @@ router.get('/remove/article/:_id',function(req,res){
 router.get('/chooseColumn',function(req,res){
 	if(req.signedCookies.mycookies){
 		var unionId = req.signedCookies.mycookies.unionId;
-		Column.find({unionId:unionId},{_id:1,loanName:1},function(err,ret){
+		Column.find({unionId:unionId,isCheck:'success'},{_id:1,loanName:1},function(err,ret){
 			if(err){
 				return logger.error(err)
 			}else{
@@ -275,6 +311,22 @@ router.get('/chooseColumn',function(req,res){
 		return res.redirect('/');
 	}
 })
+
+
+
+
+
+router.get('/miniprogram',function(req,res){
+	if(req.signedCookies.mycookies){
+		res.render('front/files/miniprogram')
+		
+	}else{
+		return res.redirect('/');
+	}
+})
+
+
+
 
 
 
@@ -449,6 +501,50 @@ router.get('/removeColumnSuccess',function(req,res){
 		return res.redirect('/');
 	}
 })
+
+
+
+
+router.get('/see/message',function(req,res){
+	if(req.signedCookies.mycookies){
+		var unionId = req.signedCookies.mycookies.unionId;
+		Message.find({},function(err,ret4){
+
+
+			return res.render('front/messagePage',{ret:ret4,avatarUrl:req.signedCookies.mycookies.avatarUrl})	
+
+			
+		})
+		
+	}else{
+		return res.redirect('/');
+	}
+})
+
+
+
+router.get('/isread/:messageId',function(req,res){
+
+	if(req.signedCookies.mycookies){
+		var unionId = req.signedCookies.mycookies.unionId;
+		var messageId = req.params.messageId;
+		Message.update({_id:messageId},{$set:{isRead:true}},function(err){
+			if(err){
+				return logger.error(err);
+			}else{
+				return res.send('readtrue');
+			}
+		})
+		
+	}else{
+		return res.redirect('/');
+	}
+})
+
+
+
+
+
 
 
 

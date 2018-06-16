@@ -1,0 +1,22 @@
+doctype html
+html
+	include files/head.pug
+	body
+		div.xiaohong-top
+			div.xiaohong-side
+				a(href='/xiaohong/home')
+					img(src="/images/xiaohongxian.png", alt="logo")
+			div.xiaohong-content
+				div.xhx-c-h
+					img(src=avatarUrl, alt="uLogo")
+				div.xhx-c-c
+					each item in ret
+						div.xhx-c-c-list(id=item._id)
+							div.xhx-list-c
+								img(src=item.loanImg, alt="clogo")
+								div.xhx-list-c-i
+									div.xhx-list-c-i-a=item.loanName
+										span   -  #{item.zone}
+									div.xhx-list-c-i-b=item.company
+	script(src="/scripts/jquery.min.js")
+	script(src="/scripts/end.js")

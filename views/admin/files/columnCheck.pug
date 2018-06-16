@@ -1,0 +1,13 @@
+each item in ret
+	div.xhx-c-c-list(id=item._id)
+		div.xhx-list-c
+			img(src=item.loanImg, alt="clogo")
+			div.xhx-list-c-i
+				div.xhx-list-c-i-a=item.loanName
+					span   -  #{item.zone}
+				div.xhx-list-c-i-b=item.company
+		div.xhx-list-d
+			div.xhx-list-d-a(class="a") 不通过
+			div.xhx-list-d-a(class="b") 通过
+			a.xhx-list-d-a(href="/xiaohong/seeColumn/"+item._id class="c" target="_blank" style="color:#aaa") 看他的专栏
+script(src="/scripts/columnCheck.js")
