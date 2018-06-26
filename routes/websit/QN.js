@@ -3,17 +3,25 @@ var express = require('express');
 var router = express.Router();
 var config = require('../../config/config.js');
 
+var accessKey = config.ACCESS_KEY;
+var secretKey = config.SECRET_KEY;
+var mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
+
 
 router.get('/uptoken', function(req, res, next) {
-    // var token = uptoken.token();
+
+    var options = {
+      scope: config.Bucket_Name,
+      expires:7200
+    };
+    var putPolicy = new qiniu.rs.PutPolicy(options);
+    var uptoken=putPolicy.uploadToken(mac);
     res.header("Cache-Control", "max-age=0, private, must-revalidate");
     res.header("Pragma", "no-cache");
     res.header("Expires", 5000);
-    // if (token) {
-        res.json({
-            uptoken: uptoken
-        });
-    // }
+    res.json({
+        uptoken: uptoken
+    });
 });
 
 router.post('/downtoken', function(req, res) {
@@ -50,16 +58,6 @@ router.post('/downtoken', function(req, res) {
     }
 });
 
-
-var accessKey = config.ACCESS_KEY;
-var secretKey = config.SECRET_KEY;
-var mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
-
-var options = {
-  scope: config.Bucket_Name,
-};
-var putPolicy = new qiniu.rs.PutPolicy(options);
-var uptoken=putPolicy.uploadToken(mac);
 
 
 module.exports = router;
