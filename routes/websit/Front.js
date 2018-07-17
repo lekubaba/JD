@@ -17,8 +17,14 @@ var bucketManager = new qiniu.rs.BucketManager(mac, config);
 
 
 router.get('/',function(req,res){
+	res.render('front/xiaohonghome')
+})
+
+
+router.get('/wx-login',function(req,res){
 	res.render('front/indexPage')
 })
+
 
 
 router.get('/home',function(req,res){
@@ -508,8 +514,7 @@ router.get('/removeColumnSuccess',function(req,res){
 router.get('/see/message',function(req,res){
 	if(req.signedCookies.mycookies){
 		var unionId = req.signedCookies.mycookies.unionId;
-		Message.find({},function(err,ret4){
-
+		Message.find({unionId:unionId},function(err,ret4){
 
 			return res.render('front/messagePage',{ret:ret4,avatarUrl:req.signedCookies.mycookies.avatarUrl})	
 

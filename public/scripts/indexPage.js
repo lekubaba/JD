@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	var appId='wxf4754d57d42fee70';
 	var AppSecret ='7ee0d9ca73ec7fef8ff38858b4bf3c2b';
-	var REDIRECT_URI= 'http%3a%2f%2fwww.xiaohongxian.com';
+	var REDIRECT_URI= 'http%3a%2f%2fwww.xiaohongxian.com/wx-login';
 	var ran = Math.random()*1000000000000000000;
 	var obj = new WxLogin({
 		self_redirect:false,

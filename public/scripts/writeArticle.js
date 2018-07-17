@@ -8,7 +8,7 @@ $(document).ready(function(){
     editor.customConfig.qiniu = true;
     editor.customConfig.pasteFilterStyle = true;
     editor.customConfig.pasteIgnoreImg=true;
-    editor.customConfig.colors = ['#000000','#2c90e0','#ff5545','#c9c1bb'];
+    editor.customConfig.colors = ['#000000','#2c90e0','#ff5545','#c9c1bb','#0052ff'];
     editor.customConfig.pasteTextHandle=function(content){
         return cleanAndPaste(content)
     }

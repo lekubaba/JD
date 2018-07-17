@@ -550,7 +550,24 @@ button:disabled{background:#fff0b9;color:#909090;cursor:not-allowed}
 
 }
 
+.herder-a-b{
+	width:60px;
+	height:30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #ff5545;
+	border-radius: 5px;
+}
 
+.herder-a-b span{
+	position: relative;
+	left: 2.5px;
+	display: inline-block;
+	font-size: 14px;
+	color:#fff;
+	letter-spacing: 5px;
+}
 
 
 
