@@ -68,9 +68,8 @@ var routesPath = __dirname +'/routes/'
 
 route.init(app,routesPath)
 
-http.createServer(app).listen(80);
-https.createServer(options,app).listen(443);
+http.createServer(app).listen(8081);
+https.createServer(options,app).listen(8082);
 
-logger.info('server is running:80')
-logger.info('server is running:443');
-
+logger.info('server is running:8081');
+logger.info('server is running:8082');

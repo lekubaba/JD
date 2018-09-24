@@ -37,5 +37,88 @@ router.get('/freshcolumn/:site/:len',function(req,res){
 
 
 
+//招商代理板块请求路由，
+
+router.get('/zhaoshangdaili',function(req,res){
+	Column.find({zone:'全国',isCheck:'success',myColumnNum:{$gt:0}},{myColumn:0,isVip:0,timeStamp:0},function(err,result){
+		if(err){
+			return logger.error(err)
+		}else{
+			return res.json(result)
+		}
+	}).sort({isTop:-1,timeStamp:-1}).limit(10)
+
+});
+
+
+router.get('/zhaoshangdaili/:len',function(req,res){
+	var len = req.params.len
+	len = parseInt(len);
+	Column.find({zone:'全国',isCheck:'success',myColumnNum:{$gt:0}},{myColumn:0,isVip:0,timeStamp:0},function(err,result){
+		if(err){
+			return logger.error(err);
+		}else{
+			return res.json(result);
+		}
+	}).sort({isTop:-1,timeStamp:-1}).limit(10).skip(len)
+});
+
+
+
+//网贷相关，
+
+router.get('/loanColumnList',function(req,res){
+	Column.find({zone:'网贷',isCheck:'success',myColumnNum:{$gt:0}},{myColumn:0,isVip:0,timeStamp:0},function(err,result){
+		if(err){
+			return logger.error(err)
+		}else{
+			return res.json(result)
+		}
+	}).sort({isTop:-1,timeStamp:-1}).limit(10)
+
+});
+
+
+router.get('/loanColumnList/:len',function(req,res){
+	var len = req.params.len
+	len = parseInt(len);
+	Column.find({zone:'网贷',isCheck:'success',myColumnNum:{$gt:0}},{myColumn:0,isVip:0,timeStamp:0},function(err,result){
+		if(err){
+			return logger.error(err);
+		}else{
+			return res.json(result);
+		}
+	}).sort({isTop:-1,timeStamp:-1}).limit(10).skip(len)
+});
+
+
+//推广产品列表栏目，
+
+router.get('/extendColumnList',function(req,res){
+	Column.find({zone:'推广',isCheck:'success',myColumnNum:{$gt:0}},{myColumn:0,isVip:0,timeStamp:0},function(err,result){
+		if(err){
+			return logger.error(err)
+		}else{
+			return res.json(result)
+		}
+	}).sort({isTop:-1,timeStamp:-1}).limit(10)
+
+});
+
+
+router.get('/extendColumnList/:len',function(req,res){
+	var len = req.params.len
+	len = parseInt(len);
+	Column.find({zone:'推广',isCheck:'success',myColumnNum:{$gt:0}},{myColumn:0,isVip:0,timeStamp:0},function(err,result){
+		if(err){
+			return logger.error(err);
+		}else{
+			return res.json(result);
+		}
+	}).sort({isTop:-1,timeStamp:-1}).limit(10).skip(len)
+});
+
+
+
 
 module.exports = router;

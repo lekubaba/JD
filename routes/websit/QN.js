@@ -7,7 +7,7 @@ var accessKey = config.ACCESS_KEY;
 var secretKey = config.SECRET_KEY;
 var mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
 
-
+//飞贷用户上传文件路由控制
 router.get('/uptoken', function(req, res, next) {
 
     var options = {
