@@ -1,0 +1,25 @@
+doctype html
+html(lang="en")
+	include ./files/head.pug
+	body
+		div(id="app")
+			div(id="inapp")
+				div(id="top")
+					div(class="nav" data-v-53e0886a)
+						div(data-v-53e0886a class="btn-menu")
+							i(data-v-53e0886a class="iconfont icon-daohang")
+						div(class="nav-logo" data-v-53e0886a)
+							i(data-v-71562512="" class="iconfont-logo icon-logo")
+						div(class="btn-account" data-v-53e0886a)
+							i(data-v-53e0886a class="iconfont icon-denglu data-v-account")
+				div(id="container" data-v-339e84a5)
+					div(id="side" data-v-71562512 data-v-339e84a5)
+						include ./files/side.pug
+					div(class="main" data-v-339e84a5)
+						div(id="header" data-v-d5bffaf0 data-v-339e84a5)
+							include ./files/header.pug
+						div(class="content" data-v-339e84a5 id="load-content-file")
+							include ./files/home-content.pug
+						div(data-v-73ed9e96 data-v-339e84a5)
+							include ./files/footer.pug
+				div(class="mask" style="display: none;" data-v-339e84a5)

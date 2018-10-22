@@ -15,8 +15,13 @@ var config = new qiniu.conf.Config();
 config.zone = qiniu.zone.Zone_z0;
 var bucketManager = new qiniu.rs.BucketManager(mac, config);
 
-
 router.get('/',function(req,res){
+	res.render('arts/home')
+})
+
+
+
+router.get('/daikuan',function(req,res){
 	res.render('front/xiaohonghome')
 })
 
